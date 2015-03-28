@@ -6,7 +6,10 @@
 
 package serverPackage;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
 import javax.websocket.server.ServerEndpoint;
 
 /**
@@ -20,6 +23,21 @@ public class SocketServer {
     public String onMessage(String message) {
         System.out.println(message);
         return null;
+    }
+
+    @OnOpen
+    public void onOpen() {
+        System.out.println("Connection opened");
+    }
+
+    @OnError
+    public void onError(Throwable t) {
+        System.out.println("Some Error Occured");
+    }
+
+    @OnClose
+    public void onClose() {
+        System.out.println("Connection Closed By Client");
     }
     
 }
