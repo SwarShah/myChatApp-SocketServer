@@ -6,6 +6,10 @@
 
 package serverPackage;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -19,7 +23,9 @@ import javax.websocket.server.ServerEndpoint;
  */
 @ServerEndpoint("/chat")
 public class SocketServer {
-
+    private static final Set<Session> liveSessions = Collections.synchronizedSet(new HashSet<Session>());
+    private static final HashMap<String, String> nameWithSession = new HashMap<>();
+    
     @OnMessage
     public String onMessage(String message, Session s) {
         System.out.println("Message from: "+s.getId() +", Message: "+message);
