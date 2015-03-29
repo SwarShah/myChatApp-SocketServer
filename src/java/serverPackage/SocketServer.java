@@ -23,6 +23,7 @@ public class SocketServer {
     @OnMessage
     public String onMessage(String message, Session s) {
         System.out.println("Message from: "+s.getId() +", Message: "+message);
+        sendMsg(message, s);
         return null;
     }
 
@@ -41,5 +42,9 @@ public class SocketServer {
         System.out.println("Connection Closed By "+s.getId());
     }
     
+    private void sendMsg(String msg, Session s){
+        System.out.println("Sending Msg: "+msg);
+        s.getAsyncRemote().sendText(msg);
+    }
     
 }
