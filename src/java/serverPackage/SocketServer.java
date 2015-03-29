@@ -37,8 +37,8 @@ public class SocketServer {
     }
 
     @OnClose
-    public void onClose() {
-        System.out.println("Connection Closed By Client");
+    public void onClose(Session s) {
+        System.out.println("Connection Closed By "+s.getId());
     }
     
     
