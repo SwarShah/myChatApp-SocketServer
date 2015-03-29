@@ -10,6 +10,7 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 /**
@@ -20,14 +21,14 @@ import javax.websocket.server.ServerEndpoint;
 public class SocketServer {
 
     @OnMessage
-    public String onMessage(String message) {
-        System.out.println(message);
+    public String onMessage(String message, Session s) {
+        System.out.println("Message from: "+s.getId() +", Message: "+message);
         return null;
     }
 
     @OnOpen
-    public void onOpen() {
-        System.out.println("Connection opened");
+    public void onOpen(Session s) {
+        System.out.println("Connection opened "+s.getId());
     }
 
     @OnError
@@ -39,5 +40,6 @@ public class SocketServer {
     public void onClose() {
         System.out.println("Connection Closed By Client");
     }
+    
     
 }
