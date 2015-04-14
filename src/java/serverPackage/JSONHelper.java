@@ -6,13 +6,18 @@
 
 package serverPackage;
 
+import javax.json.Json;
+
 /**
  *
  * @author c0647456
  */
 public class JSONHelper {
     public String getNewClientDetailsJson(String sessionId, String message) {
-        return null;        
+        return Json.createObjectBuilder()
+                .add("flag", "self")
+                .add("sessionId", sessionId)
+                .add("message", message).build().toString();         
     }
     
     public String getConnectJson(String sessionId, String name,
