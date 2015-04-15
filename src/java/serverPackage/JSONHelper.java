@@ -42,6 +42,10 @@ public class JSONHelper {
     
     public String getMessageJson(String sessionId, String fromName,
 			String message) {
-        return null;        
+        return Json.createObjectBuilder()
+                .add("flag", "exit")
+                .add("name", fromName)
+                .add("sessionId", sessionId)
+                .add("message", message).build().toString();        
     }
 }
