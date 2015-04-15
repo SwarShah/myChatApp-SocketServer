@@ -34,15 +34,16 @@ public class SocketServer {
 
     private static final Set<Session> liveSessions = Collections.synchronizedSet(new HashSet<Session>());
     private static final HashMap<String, String> nameWithSession = new HashMap<>();
-    private JSONHelper json = new JSONHelper();
+    private final JSONHelper json = new JSONHelper();
 
     @OnMessage
     public void onMessage(String message, Session s) {
         System.out.println("Message from: " + s.getId() + ", Message: " + message);
-        //Reading text json and adding in JsonObject
-        JsonReader jsonReader = Json.createReader(new StringReader(message));
-        JsonObject jsonRead = jsonReader.readObject();
-        jsonReader.close();
+        JsonObject jsonRead;
+        try ( //Reading text json and adding in JsonObject
+                JsonReader jsonReader = Json.createReader(new StringReader(message))) {
+            jsonRead = jsonReader.readObject();
+        }
 
         //Getting value of flag from JsonObject
         String msg = jsonRead.getString("message");
