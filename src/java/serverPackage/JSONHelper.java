@@ -22,7 +22,12 @@ public class JSONHelper {
     
     public String getConnectJson(String sessionId, String name,
 			String message, int onlineCount) {
-        return null;        
+        return Json.createObjectBuilder()
+                .add("flag", "new")
+                .add("name", name)
+                .add("sessionId", sessionId)
+                .add("message", message)
+                .add("onlineCount", onlineCount).build().toString();        
     }
     
     public String getDisconnectJson(String sessionId, String name,
