@@ -94,11 +94,6 @@ public class SocketServer {
                 true);
     }
 
-    private void sendMsg(String msg, Session s) {
-        System.out.println("Sending Msg: " + msg);
-        s.getAsyncRemote().sendText(msg);
-    }
-
     private void sendMessageToAll(String sessionId, String name,
             String message, boolean isNewClient, boolean isExit) {
         for (Session s : liveSessions) {
