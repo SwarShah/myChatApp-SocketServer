@@ -5,11 +5,13 @@
  */
 package serverPackage;
 
+import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -93,6 +95,19 @@ public class SocketServer {
                 e.printStackTrace();
             }
         }
+    }
+
+    // Getting query parameters
+    private static Map<String, String> getQueryMap(String query) {
+        Map<String, String> map = Maps.newHashMap();
+        if (query != null) {
+            String[] params = query.split("&");
+            for (String param : params) {
+                String[] nameval = param.split("=");
+                map.put(nameval[0], nameval[1]);
+            }
+        }
+        return map;
     }
 
 }
