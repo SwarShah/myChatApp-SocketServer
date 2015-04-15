@@ -25,7 +25,7 @@ import javax.websocket.server.ServerEndpoint;
 public class SocketServer {
     private static final Set<Session> liveSessions = Collections.synchronizedSet(new HashSet<Session>());
     private static final HashMap<String, String> nameWithSession = new HashMap<>();
-    
+    private JSONHelper json = new JSONHelper();
     @OnMessage
     public String onMessage(String message, Session s) {
         System.out.println("Message from: "+s.getId() +", Message: "+message);
