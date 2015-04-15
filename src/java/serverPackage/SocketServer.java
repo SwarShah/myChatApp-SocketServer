@@ -8,6 +8,8 @@ package serverPackage;
 import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,6 +54,30 @@ public class SocketServer {
     @OnOpen
     public void onOpen(Session s) {
         System.out.println("Connection opened " + s.getId());
+        Map<String, String> queryParams = getQueryMap(s.getQueryString());
+        String name = "";
+        if (queryParams.containsKey("name")) {
+            System.out.println("Inside if with name = " + queryParams.get("name"));
+            // Getting client name via query param
+            name = queryParams.get("name");
+            try {
+                name = URLDecoder.decode(name, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            nameWithSession.put(s.getId(), name);
+        }
+        liveSessions.add(s);
+        try {
+            s.getBasicRemote().sendText(
+                    json.getNewClientDetailsJson(s.getId(), "Your session details"));
+            System.out.println("Sending session");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Sednding session catch");
+        }
+        sendMessageToAll(s.getId(), name, " joined conversation!", true,
+                false);
     }
 
     @OnError
