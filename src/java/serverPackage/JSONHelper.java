@@ -32,7 +32,12 @@ public class JSONHelper {
     
     public String getDisconnectJson(String sessionId, String name,
 			String message, int onlineCount) {
-        return null;        
+        return Json.createObjectBuilder()
+                .add("flag", "exit")
+                .add("name", name)
+                .add("sessionId", sessionId)
+                .add("message", message)
+                .add("onlineCount", onlineCount).build().toString();                   
     }
     
     public String getMessageJson(String sessionId, String fromName,
