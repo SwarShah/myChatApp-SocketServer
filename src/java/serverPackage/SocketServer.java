@@ -6,10 +6,14 @@
 package serverPackage;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -29,10 +33,18 @@ public class SocketServer {
     private JSONHelper json = new JSONHelper();
 
     @OnMessage
-    public String onMessage(String message, Session s) {
+    public void onMessage(String message, Session s) {
         System.out.println("Message from: " + s.getId() + ", Message: " + message);
-        sendMsg(message, s);
-        return null;
+        //Reading text json and adding in JsonObject
+        JsonReader jsonReader = Json.createReader(new StringReader(message));
+        JsonObject jsonRead = jsonReader.readObject();
+        jsonReader.close();
+
+        //Getting value of flag from JsonObject
+        String msg = jsonRead.getString("message");
+        sendMessageToAll(s.getId(), nameWithSession.get(s.getId()),
+                msg, false, false);
+
     }
 
     @OnOpen
